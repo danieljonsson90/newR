@@ -20,7 +20,7 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
+  const origin = typeof window !== 'undefined' ? window.location.origin : null;
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const supabase = createClient();
@@ -32,7 +32,7 @@ export function LoginForm({
         provider: 'azure',
         options: {
           scopes: 'email',
-          redirectTo: `https://testapp-fph9dpg4fzb9dhgd.swedencentral-01.azurewebsites.net/auth/callback`,
+          redirectTo: `${origin}/auth/callback`,
         },
       });
       if (error) console.log(error);
