@@ -10,17 +10,17 @@ export function UpdatePartner({ id }: { id: number }) {
   const router = useRouter();
   const [name, setName] = useState('');
 
-  const getPartner = async () => {
-    const { data, error } = await getPartnerById(id);
-    if (error) {
-      console.error('Error fetching partner:', error);
-    } else {
-      setName(data.name);
-    }
-  };
   useEffect(() => {
+    const getPartner = async () => {
+      const { data, error } = await getPartnerById(id);
+      if (error) {
+        console.error('Error fetching partner:', error);
+      } else {
+        setName(data.name);
+      }
+    };
     getPartner();
-  }, []);
+  }, [id]);
 
   const update = async () => {
     const { data, error } = await updatePartner(id, name);
