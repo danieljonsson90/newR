@@ -8,7 +8,7 @@ import { hasEnvVars } from '@/lib/utils';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 const defaultUrl =
   process.env.NODE_ENV === 'production'
-    ? `https://${process.env.NEXT_PUBLIC_AZURE_DOMAIN_ADDRESS}`
+    ? `https://testapp-fph9dpg4fzb9dhgd.swedencentral-01.azurewebsites.net`
     : 'http://localhost:3000';
 
 export const metadata: Metadata = {
