@@ -8,9 +8,9 @@ export const updateConsultantAssignment = async (
 ) => {
   consultantAssignment = {
     ...consultantAssignment,
-    Consultant: undefined,
-    Client: undefined,
-    Partner: undefined,
+    consultant: undefined,
+    client: undefined,
+    partner: undefined,
   };
   const { data, error } = await supabase
     .from('ConsultantAssignments')

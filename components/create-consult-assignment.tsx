@@ -17,7 +17,7 @@ import { getPartners } from '@/app/core/queries/partner-queries';
 import { createNewConsultantAssignment } from '@/app/core/commands/consult-assignment-commands';
 import {
   calculateRevenueMarginAndProfit,
-  createConsultantAssignment,
+  createConsultantAssignmentObject,
 } from '@/app/utilities/helpers/helpers';
 
 export function CreateConsultantAssignment() {
@@ -28,7 +28,7 @@ export function CreateConsultantAssignment() {
   const [clients, setClients] = useState<Client[]>([]);
   const [partners, setPartners] = useState<Partner[]>([]);
   const [consultAssignment, setConsultantAssignment] =
-    useState<ConsultantAssignment>(createConsultantAssignment());
+    useState<ConsultantAssignment>(createConsultantAssignmentObject());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,13 +66,11 @@ export function CreateConsultantAssignment() {
     }
     const { totalRevenue, margin, profit } =
       calculateRevenueMarginAndProfit(consultAssignment);
+    consultAssignment.total_revenue = totalRevenue;
+    consultAssignment.margin_percent = margin;
+    consultAssignment.profit = profit;
 
-    setConsultantAssignment({
-      ...consultAssignment,
-      profit: profit,
-      margin_percent: margin,
-      total_revenue: totalRevenue,
-    });
+    setConsultantAssignment(consultAssignment);
     setLoading(true);
 
     const { data, error } = await createNewConsultantAssignment(
@@ -198,13 +196,13 @@ export function CreateConsultantAssignment() {
         </div>
         <Input
           placeholder="Cost full time"
-          type="number"
+          type="text"
           value={consultAssignment?.cost_fulltime}
           onChange={(e) =>
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                cost_fulltime: +e.target.value,
+                cost_fulltime: e.target.value,
               }
             )
           }
@@ -212,13 +210,13 @@ export function CreateConsultantAssignment() {
         />
         <Input
           placeholder="Hourly rate"
-          type="number"
+          type="text"
           value={consultAssignment?.hourly_rate}
           onChange={(e) =>
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                hourly_rate: +e.target.value,
+                hourly_rate: e.target.value,
               }
             )
           }
@@ -226,13 +224,13 @@ export function CreateConsultantAssignment() {
         />
         <Input
           placeholder="Hours worked"
-          type="number"
+          type="text"
           value={consultAssignment?.hours_worked}
           onChange={(e) =>
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                hours_worked: +e.target.value,
+                hours_worked: e.target.value,
               }
             )
           }

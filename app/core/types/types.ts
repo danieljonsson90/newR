@@ -15,18 +15,18 @@ export interface Client {
   name: string;
 }
 export interface ConsultantAssignment {
-  assignment_id?: number;
-  consultant_id: number;
-  client_id: number;
-  partner_id: number;
-  month: string;
-  cost_fulltime?: number;
-  hourly_rate?: number;
-  hours_worked?: number;
-  total_revenue: number;
-  margin_percent: number;
-  profit: number;
-  Consultant?: Consultant;
-  Client?: Client;
-  Partner?: Partner;
+  assignment_id: number;
+  consultant_id?: number;
+  client_id?: number;
+  partner_id?: number;
+  month?: string;
+  cost_fulltime?: string;
+  hourly_rate?: string;
+  hours_worked?: string;
+  total_revenue?: number;
+  margin_percent?: number;
+  profit?: number;
+  consultant?: Consultant;
+  client?: Client;
+  partner?: Partner;
 }

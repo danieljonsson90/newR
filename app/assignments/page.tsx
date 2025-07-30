@@ -1,14 +1,30 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getConsultantsAssignments } from '../core/queries/consult-assignment-queries';
 import { ConsultantAssignment } from '../core/types/types';
 import { deleteConsultantAssignment } from '../core/commands/consult-assignment-commands';
+import Modal from '@/components/modal';
+import { CustomTable } from '@/components/custom-table';
 export default function Page() {
   const [assignments, setAssignments] = useState<ConsultantAssignment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] =
+    useState<ConsultantAssignment | null>();
 
+  const columns = [
+    'Consultant name',
+    'Client',
+    'Partner',
+    'Hourly rate consultant',
+    'Hourly rate client',
+    'Hours worked',
+    'Month',
+    'Total revenue',
+    'Profit',
+    'Margin',
+  ];
   useEffect(() => {
     const fetchConsultants = async () => {
       const { data: assignments, error } = await getConsultantsAssignments();
@@ -22,88 +38,67 @@ export default function Page() {
     fetchConsultants();
   }, []);
 
-  const deleteC = async (id?: number) => {
-    if (!id) return;
-    const { data, error } = await deleteConsultantAssignment(id);
+  const openModal = (rowIndex: number) => {
+    setIsModalOpen(true);
+    setSelectedAssignment(assignments[rowIndex]);
+  };
+  const rows = assignments.map((assignment) => {
+    return {
+      id: assignment.assignment_id,
+      values: [
+        assignment.consultant?.name,
+        assignment.client?.name,
+        assignment.partner?.name,
+        assignment.cost_fulltime,
+        assignment.hourly_rate,
+        assignment.hours_worked,
+        assignment.month,
+        assignment.total_revenue,
+        assignment.profit,
+        assignment.margin_percent + ' %',
+      ],
+    };
+  });
+
+  const deleteA = async () => {
+    if (selectedAssignment == null) return;
+    const { data, error } = await deleteConsultantAssignment(
+      selectedAssignment?.assignment_id
+    );
     if (error) {
-      console.error('Error deleting consultant:', error);
+      console.error('Error deleting assigment:', error);
     } else {
       setAssignments(
-        assignments.filter((assignment) => assignment.assignment_id !== id)
+        assignments.filter(
+          (assignment) =>
+            assignment.assignment_id !== selectedAssignment.assignment_id
+        )
       );
-
-      console.log('Consultant deleted:', data);
+      setIsModalOpen(false);
+      console.log('Assigment deleted:', data);
     }
   };
 
   if (loading) return <div>Loading...</div>;
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th>Consultant name</th>
-            <th>Client</th>
-            <th>Partner</th>
-            <th>Hourly rate consultant</th>
-            <th>Hourly rate client</th>
-            <th>Hours worked</th>
-            <th>Month</th>
-            <th>Total revenue</th>
-            <th>Profit</th>
-            <th>Margin %</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assignments?.map((assignment) => (
-            <tr key={assignment.assignment_id}>
-              <td>
-                {assignment.Consultant?.name} <br />
-              </td>
-              <td>
-                {assignment.Client?.name} <br />
-              </td>
-              <td>
-                {assignment.Partner?.name} <br />
-              </td>
-              <td>
-                {assignment.cost_fulltime} <br />
-              </td>
-              <td>
-                {assignment.hourly_rate} <br />
-              </td>
-              <td>
-                {assignment.hours_worked} <br />
-              </td>
-              <td>
-                {assignment.month} <br />
-              </td>
-              <td>
-                {assignment.total_revenue} <br />
-              </td>
-              <td>
-                {assignment.profit} <br />
-              </td>
-              <td>
-                {assignment.margin_percent} <br />
-              </td>
-              <td>
-                <Link
-                  href={`/assignments/update/${assignment.Consultant?.consultant_id}`}
-                >
-                  Update
-                </Link>
-              </td>
-              <td>
-                <Button onClick={() => deleteC(assignment.assignment_id)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <CustomTable
+        columns={columns}
+        rows={rows}
+        type="assignments"
+        openModal={openModal}
+      />
+
       <Link href="/assignments/create">Create assignment</Link>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCancel={() => setIsModalOpen(false)}
+        onDelete={deleteA}
+        title="Delete assigment"
+      >
+        <p>Are you sure you want to delete the assigment?</p>
+      </Modal>
     </>
   );
 }

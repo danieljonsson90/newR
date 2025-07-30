@@ -204,7 +204,7 @@ export function UpdateConsultantAssignment({ id }: { id: number }) {
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                cost_fulltime: +e.target.value,
+                cost_fulltime: e.target.value,
               }
             )
           }
@@ -218,7 +218,7 @@ export function UpdateConsultantAssignment({ id }: { id: number }) {
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                hourly_rate: +e.target.value,
+                hourly_rate: e.target.value,
               }
             )
           }
@@ -232,7 +232,7 @@ export function UpdateConsultantAssignment({ id }: { id: number }) {
             setConsultantAssignment(
               consultAssignment && {
                 ...consultAssignment,
-                hours_worked: +e.target.value,
+                hours_worked: e.target.value,
               }
             )
           }
