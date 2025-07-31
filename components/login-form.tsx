@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
+import { useAuthStore } from '../app/core/stores/auth-store';
 export function LoginForm({
   className,
   ...props
@@ -21,6 +21,7 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const origin = typeof window !== 'undefined' ? window.location.origin : null;
+  const { login } = useAuthStore();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const supabase = createClient();
@@ -28,15 +29,16 @@ export function LoginForm({
     setError(null);
 
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'azure',
-        options: {
-          scopes: 'email',
-          redirectTo: `${origin}/auth/callback`,
-        },
-      });
-      if (error) console.log(error);
-      console.log('data', data);
+      login();
+      // const { data, error } = await supabase.auth.signInWithOAuth({
+      //   provider: 'azure',
+      //   options: {
+      //     scopes: 'email',
+      //     redirectTo: `${origin}/auth/callback`,
+      //   },
+      // });
+      // if (error) console.log(error);
+      // console.log('data', data);
       // Update this route to redirect to an authenticated route. The user already has an active session.
       router.push('/protected');
     } catch (error: unknown) {
