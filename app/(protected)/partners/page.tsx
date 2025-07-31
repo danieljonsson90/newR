@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getPartners } from '../core/queries/partner-queries';
-import { deletePartner } from '../core/commands/partner-commands';
-import { Partner } from '../core/types/types';
+import { getPartners } from '../../core/queries/partner-queries';
+import { deletePartner } from '../../core/commands/partner-commands';
+import { Partner } from '../../core/types/types';
 import Modal from '@/components/modal';
 import { CustomTable } from '@/components/custom-table';
 

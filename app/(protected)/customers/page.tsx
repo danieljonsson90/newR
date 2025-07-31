@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getClients } from '../core/queries/client-queries';
+import { getClients } from '../../core/queries/client-queries';
 
 import Link from 'next/link';
-import { deleteClient } from '../core/commands/client-commands';
-import { Client } from '../core/types/types';
+import { deleteClient } from '../../core/commands/client-commands';
+import { Client } from '../../core/types/types';
 import Modal from '@/components/modal';
 import { CustomTable } from '@/components/custom-table';
 export default function Page() {

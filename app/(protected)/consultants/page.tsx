@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getConsultants } from '../core/queries/consultant-queries';
-import { deleteConsultant } from '../core/commands/consultants-commands';
-import { Consultant } from '../core/types/types';
+import { getConsultants } from '../../core/queries/consultant-queries';
+import { deleteConsultant } from '../../core/commands/consultants-commands';
+import { Consultant } from '../../core/types/types';
 import Modal from '@/components/modal';
 import { CustomTable } from '@/components/custom-table';
 export default function Page() {

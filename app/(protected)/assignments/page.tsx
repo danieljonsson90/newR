@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getConsultantsAssignments } from '../core/queries/consult-assignment-queries';
-import { ConsultantAssignment } from '../core/types/types';
-import { deleteConsultantAssignment } from '../core/commands/consult-assignment-commands';
+import { getConsultantsAssignments } from '../../core/queries/consult-assignment-queries';
+import { ConsultantAssignment } from '../../core/types/types';
+import { deleteConsultantAssignment } from '../../core/commands/consult-assignment-commands';
 import Modal from '@/components/modal';
 import { CustomTable } from '@/components/custom-table';
 export default function Page() {
